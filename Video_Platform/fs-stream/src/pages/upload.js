@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BiCloud, BiPlus } from "react-icons/bi";
 import getContract from "./utils/getContract";
+import lighthouse from '@lighthouse-web3/sdk';
+
 
 export default function Upload() {
 
@@ -32,6 +34,21 @@ export default function Upload() {
         };
 
         await saveVideo(data);
+    };
+
+    const uploadToLighthouse = async (e, type) => {
+        setIsUploading(true);
+        const output = await lighthouse.upload(
+            e,
+            process.env.NEXT_PUBLIC_LIGHTHOUSE_KEY
+        );
+        let cid = output.data.Hash;
+        if (type == "thumbnail") {
+            setThumbnail(cid);
+        } else {
+            setVideo(cid);
+        }
+        setIsUploading(false);
     };
 
     const saveVideo = async (data) => {
@@ -143,7 +160,7 @@ export default function Upload() {
                             className="hidden"
                             ref={thumbnailRef}
                             onChange={(e) => {
-                                setThumbnail(e.target.files[0]);
+                                uploadToLighthouse(e);
                             }}
                         />
                     </div>
@@ -175,8 +192,7 @@ export default function Upload() {
                     ref={videoRef}
                     accept={'video/*'}
                     onChange={(e) => {
-                        setVideo(e.target.files[0]);
-                        console.log(e.target.files[0]);
+                        uploadToLighthouse(e);
                     }}
                 />
             </div>

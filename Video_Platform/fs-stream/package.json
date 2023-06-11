@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lighthouse-web3/sdk": "^0.2.5",
     "@lit-protocol/sdk-nodejs": "^1.1.250",
     "@livepeer/react": "^2.5.4",
     "@rainbow-me/rainbowkit": "^1.0.1",
