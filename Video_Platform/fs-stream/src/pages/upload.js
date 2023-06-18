@@ -3,7 +3,6 @@ import { BiCloud, BiPlus } from "react-icons/bi";
 import getContract from "./utils/getContract";
 import lighthouse from '@lighthouse-web3/sdk';
 
-
 export default function Upload() {
 
     const [title, setTitle] = useState("");
@@ -36,14 +35,23 @@ export default function Upload() {
         await saveVideo(data);
     };
 
+    const progressCallback = (progressData) => {
+        let percentageDone =
+            100 - (progressData?.total / progressData?.uploaded)?.toFixed(2);
+        console.log(percentageDone);
+    };
+
     const uploadToLighthouse = async (e, type) => {
+        // check if file is selected
+        if (!e.target.files || e.target.files.length === 0) {
+            return;
+        }
         setIsUploading(true);
-        const output = await lighthouse.upload(
-            e,
-            process.env.NEXT_PUBLIC_LIGHTHOUSE_KEY
-        );
+        const output = await lighthouse.upload(e.target.files,  process.env.NEXT_PUBLIC_LIGHTHOUSE_KEY, progressCallback);
+        console.log('File Status:', output);
         let cid = output.data.Hash;
-        if (type == "thumbnail") {
+        console.log(cid)
+        if (type === "thumbnail") {
             setThumbnail(cid);
         } else {
             setVideo(cid);
@@ -53,8 +61,6 @@ export default function Upload() {
 
     const saveVideo = async (data) => {
         const contract = await getContract();
-        data.video = "bafybeieek3sbpw7njbukkj2xphqfjaoec6x5mk4y2pkjs4qmwd447rbzwm";
-        data.thumbnail = "bafybeieek3sbpw7njbukkj2xphqfjaoec6x5mk4y2pkjs4qmwd447rbzwm";
         await contract.uploadVideo(
             data.video,
             data.title,
@@ -146,7 +152,7 @@ export default function Upload() {
                                     onClick={() => {
                                         thumbnailRef.current.click();
                                     }}
-                                    src={URL.createObjectURL(thumbnail)}
+                                    src={`https://gateway.lighthouse.storage/ipfs/${thumbnail}`}
                                     alt="thumbnail"
                                     className="h-full rounded-md"
                                 />
@@ -160,7 +166,7 @@ export default function Upload() {
                             className="hidden"
                             ref={thumbnailRef}
                             onChange={(e) => {
-                                uploadToLighthouse(e);
+                                uploadToLighthouse(e, "thumbnail");
                             }}
                         />
                     </div>
@@ -178,7 +184,7 @@ export default function Upload() {
                         {video ? (
                             <video
                                 controls
-                                src={URL.createObjectURL(video)}
+                                src={`https://gateway.lighthouse.storage/ipfs/${video}`}
                                 className="h-full rounded-md"
                             />
                         ) : (
@@ -192,7 +198,7 @@ export default function Upload() {
                     ref={videoRef}
                     accept={'video/*'}
                     onChange={(e) => {
-                        uploadToLighthouse(e);
+                        uploadToLighthouse(e, "video");
                     }}
                 />
             </div>
