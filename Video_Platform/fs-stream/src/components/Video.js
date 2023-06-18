@@ -3,6 +3,11 @@ import { BiCheck } from 'react-icons/bi';
 import moment from 'moment';
 
 export default function Video({ horizontal, video }) {
+    const stateLabel = video.state === 0 ? 'Public' : 'Private';
+    const createdAtLabel = video.createdAt
+        ? moment(video.createdAt * 1000).fromNow()
+        : moment().fromNow();
+
     return (
         <div
             className={`${
@@ -25,7 +30,7 @@ export default function Video({ horizontal, video }) {
                     {video.title}
                 </h4>
                 <p className="text-sm flex items-center text-[#878787] mt-1">
-                    {video.state + ' • ' + moment(video.createdAt * 1000).fromNow()}
+                    {stateLabel + ' • ' + createdAtLabel}
                 </p>
                 <p className="text-sm flex items-center text-[#878787] mt-1">
                     {video?.author?.slice(0, 9)}...{' '}

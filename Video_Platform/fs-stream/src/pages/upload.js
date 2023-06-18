@@ -10,8 +10,10 @@ export default function Upload() {
     const [state, setState] = useState(0);
     const [thumbnail, setThumbnail] = useState();
     const [video, setVideo] = useState("");
-    const [isUploading, setIsUploading] = useState(true);
+    const [isUploading, setIsUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [isUploadingThumbnail, setIsUploadingThumbnail] = useState(false);
+    const [isUploadingVideo, setIsUploadingVideo] = useState(false);
 
 
     const thumbnailRef = useRef(null);
@@ -50,13 +52,21 @@ export default function Upload() {
             return;
         }
         setIsUploading(true);
+        setUploadProgress(0);
+        if (type === "thumbnail") {
+            setIsUploadingThumbnail(true);
+        } else {
+            setIsUploadingVideo(true);
+        }
         const output = await lighthouse.upload(e.target.files,  process.env.NEXT_PUBLIC_LIGHTHOUSE_KEY, progressCallback);
         console.log('File Status:', output);
         let cid = output.data.Hash;
         if (type === "thumbnail") {
             setThumbnail(cid);
+            setIsUploadingThumbnail(false)
         } else {
             setVideo(cid);
+            setIsUploadingVideo(false)
         }
         setIsUploading(false);
     };
@@ -140,7 +150,7 @@ export default function Upload() {
                             }}
                             className="border-2 w-64 border-gray-600  border-dashed rounded-md mt-2 p-2  h-36 items-center justify-center flex"
                         >
-                            {isUploading ? (
+                            {isUploadingThumbnail ? (
                                 <div>
                                     <div className="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
                                     <p className="mt-6 items-center justify-center flex">{uploadProgress}%</p>
@@ -179,7 +189,7 @@ export default function Upload() {
                                 : "border-2 border-gray-600  w-96 border-dashed rounded-md mt-8   h-64 items-center justify-center flex"
                         }
                     >
-                        {isUploading ? (
+                        {isUploadingVideo ? (
                             <div>
                                 <div className="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
                                 <p className="mt-6 items-center justify-center flex">{uploadProgress}%</p>

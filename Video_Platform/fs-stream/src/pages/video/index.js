@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import lighthouse from "@lighthouse-web3/sdk";
 import Link from "next/link";
-import moment from "moment";
 import { BiCheck } from "react-icons/bi";
 import Avvvatars from "avvvatars-react";
 import getContract from "@/utils/getContract";
 import VideoPlayer from "@/components/Player";
+import VideoComponent from "@/components/Video";
+import colors from "tailwindcss/colors";
+
 export default function Video() {
     const router = useRouter();
     const { id } = router.query;
@@ -18,10 +19,15 @@ export default function Video() {
             let contract = await getContract();
             let video = await contract.videos(id);
             let videosCount = await contract.videoCount();
+            let vCount = videosCount.toNumber();
             let videos = [];
-            for (var i = videosCount; i >= 1; i--) {
+            for (var i = vCount; i >= 1; i--) {
                 let video = await contract.videos(i);
-                videos.push(video);
+                // Don't add the current video to the related videos list
+                console.log(i, id)
+                if (i !== parseInt(id)) {
+                    videos.push(video);
+                }
             }
             setRelatedVideos(videos);
             setVideo(video);
@@ -70,9 +76,18 @@ export default function Video() {
                             <h4 className="text-md ml-5 mb-3 font-bold text-black dark:text-white">
                                 Related Videos
                             </h4>
-                            {relatedVideos.map((video) => (
-                                <Link href={`/video/?id=${video.id}`} key={video.id}>
-                                    <VideoPlayer video={video} horizontal={true} />
+                            {relatedVideos.map((relatedVideo) => (
+                                <Link href={`/video/?id=${relatedVideo.id}`} key={relatedVideo.id}>
+                                    <div className="flex flex-col m-5 cursor-pointer">
+                                        <img
+                                            className="object-cover rounded-lg w-60"
+                                            src={`${process.env.NEXT_PUBLIC_LIGHT_HOUSE_URL}${relatedVideo.thumbnailHash}`}
+                                            alt={relatedVideo.title}
+                                        />
+                                        <h4 className="text-md font-bold dark:text-white mt-3 w-60">
+                                            {relatedVideo.title}
+                                        </h4>
+                                    </div>
                                 </Link>
                             ))}
                         </div>
