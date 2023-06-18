@@ -46,8 +46,7 @@ function Landing() {
                                     data-aos="zoom-y-out"
                                     data-aos-delay="150"
                                 >
-                                    A YouTube Clone built on top of FVM, allow users to create,
-                                    share and watch videos, without worrying about their privacy.
+                                    Step into FanStreamium, a groundbreaking platform reshaping the landscape of video streaming in the decentralized world. Dive into an immersive experience where creators connect directly with their audience, with full control over their content privacy, enabled by innovative NFT technologies.
                                 </p>
                                 <button
                                     className="items-center  bg-orange-300 rounded-full font-medium  p-4 shadow-lg"
