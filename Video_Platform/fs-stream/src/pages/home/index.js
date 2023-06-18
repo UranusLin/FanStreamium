@@ -12,7 +12,6 @@ export default function Main() {
         // Get the videos from the contract
         let contract = await getContract();
         let videosCount = await contract.videoCount();
-        console.log(String(videosCount));
         let videos = [];
         for (var i = videosCount; i >= 1; i--) {
             let video = await contract.videos(i);

@@ -9,16 +9,18 @@ contract FanStreamium {
     // Creating a mapping of videoCount to Video
     mapping(uint256 => Video) public videos;
 
+    // enum for define the state of the video public or private
+    enum State { Public, Private }
+
     //  Create a struct called 'Video' with the following properties:
     struct Video {
         uint256 id;
         string hash;
         string title;
         string description;
-        string location;
-        string category;
         string thumbnailHash;
         string date;
+        State state;
         address author;
     }
 
@@ -28,10 +30,9 @@ contract FanStreamium {
         string hash,
         string title,
         string description,
-        string location,
-        string category,
         string thumbnailHash,
         string date,
+        State state,
         address author
     );
 
@@ -42,10 +43,9 @@ contract FanStreamium {
         string memory _videoHash,
         string memory _title,
         string memory _description,
-        string memory _location,
-        string memory _category,
         string memory _thumbnailHash,
-        string memory _date
+        string memory _date,
+        State _state
     ) public {
         // Validating the video hash, title and author's address
         require(bytes(_videoHash).length > 0);
@@ -60,10 +60,9 @@ contract FanStreamium {
             _videoHash,
             _title,
             _description,
-            _location,
-            _category,
             _thumbnailHash,
             _date,
+            _state,
             msg.sender
         );
         // Triggering the event
@@ -72,10 +71,9 @@ contract FanStreamium {
             _videoHash,
             _title,
             _description,
-            _location,
-            _category,
             _thumbnailHash,
             _date,
+            _state,
             msg.sender
         );
     }

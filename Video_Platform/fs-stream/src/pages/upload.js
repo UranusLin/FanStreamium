@@ -7,11 +7,12 @@ export default function Upload() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
-    const [location, setLocation] = useState("");
+    const [state, setState] = useState(0);
     const [thumbnail, setThumbnail] = useState();
     const [video, setVideo] = useState("");
-    const [isUploading, setIsUploading] = useState();
+    const [isUploading, setIsUploading] = useState(true);
+    const [uploadProgress, setUploadProgress] = useState(0);
+
 
     const thumbnailRef = useRef(null);
     const videoRef = useRef();
@@ -26,19 +27,21 @@ export default function Upload() {
             video,
             title,
             description,
-            location,
-            category,
             thumbnail,
             UploadedDate: Date.now(),
+            state,
         };
 
         await saveVideo(data);
+        handleDiscard()
+        goBack()
     };
 
     const progressCallback = (progressData) => {
         let percentageDone =
             100 - (progressData?.total / progressData?.uploaded)?.toFixed(2);
         console.log(percentageDone);
+        setUploadProgress(percentageDone); // Set the upload progress state
     };
 
     const uploadToLighthouse = async (e, type) => {
@@ -50,7 +53,6 @@ export default function Upload() {
         const output = await lighthouse.upload(e.target.files,  process.env.NEXT_PUBLIC_LIGHTHOUSE_KEY, progressCallback);
         console.log('File Status:', output);
         let cid = output.data.Hash;
-        console.log(cid)
         if (type === "thumbnail") {
             setThumbnail(cid);
         } else {
@@ -65,12 +67,20 @@ export default function Upload() {
             data.video,
             data.title,
             data.description,
-            data.location,
-            data.category,
             data.thumbnail,
-            data.UploadedDate
+            data.UploadedDate,
+            data.state
         );
 
+    };
+
+    const handleDiscard = () => {
+        setTitle("");
+        setDescription("");
+        setState("");
+        setThumbnail(null);
+        setVideo("");
+        setIsUploading(null);
     };
 
     return (
@@ -78,7 +88,7 @@ export default function Upload() {
             <div className="flex-1 flex flex-col">
                 <div className="mt-5 mr-10 flex  justify-end">
                     <div className="flex items-center">
-                        <button className="bg-transparent  text-[#9CA3AF] py-2 px-6 border rounded-lg  border-gray-600  mr-6">
+                        <button className="bg-transparent  text-[#9CA3AF] py-2 px-6 border rounded-lg  border-gray-600  mr-6" onClick={handleDiscard}>
                             Discard
                         </button>
                         <button
@@ -98,44 +108,27 @@ export default function Upload() {
                         <input
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Rick Astley - Never Gonna Give You Up (Official Music Video)"
+                            placeholder="Enter your video title here"
                             className="w-[90%] text-white placeholder:text-gray-600  rounded-md mt-2 h-12 p-2 border  bg-[#1a1c1f] border-[#444752] focus:outline-none"
                         />
                         <label className="text-[#9CA3AF] mt-10">Description</label>
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Never Gonna Give You Up was a global smash on its release in July 1987, topping the charts in 25 countries including Rick’s native UK and the US Billboard Hot 100.  It also won the Brit Award for Best single in 1988. Stock Aitken and Waterman wrote and produced the track which was the lead-off single and lead track from Rick’s debut LP “Whenever You Need Somebody."
+                            placeholder="Enter a brief description for your video here"
                             className="w-[90%] text-white h-32 placeholder:text-gray-600  rounded-md mt-2 p-2 border  bg-[#1a1c1f] border-[#444752] focus:outline-none"
                         />
 
                         <div className="flex flex-row mt-10 w-[90%]  justify-between">
                             <div className="flex flex-col w-2/5    ">
-                                <label className="text-[#9CA3AF]  text-sm">Location</label>
-                                <input
-                                    value={location}
-                                    onChange={(e) => setLocation(e.target.value)}
-                                    type="text"
-                                    placeholder="Bali - Indonesia"
-                                    className="w-[90%] text-white placeholder:text-gray-600  rounded-md mt-2 h-12 p-2 border  bg-[#1a1c1f] border-[#444752] focus:outline-none"
-                                />
-                            </div>
-                            <div className="flex flex-col w-2/5    ">
-                                <label className="text-[#9CA3AF]  text-sm">Category</label>
+                                <label className="text-[#9CA3AF]  text-sm">Video State</label>
                                 <select
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
                                     className="w-[90%] text-white placeholder:text-gray-600  rounded-md mt-2 h-12 p-2 border  bg-[#1a1c1f] border-[#444752] focus:outline-none"
                                 >
-                                    <option>Music</option>
-                                    <option>Sports</option>
-                                    <option>Gaming</option>
-                                    <option>News</option>
-                                    <option>Entertainment</option>
-                                    <option>Education</option>
-                                    <option>Science & Technology</option>
-                                    <option>Travel</option>
-                                    <option>Other</option>
+                                    <option value="0">Public</option>
+                                    <option value="1">Private</option>
                                 </select>
                             </div>
                         </div>
@@ -147,7 +140,12 @@ export default function Upload() {
                             }}
                             className="border-2 w-64 border-gray-600  border-dashed rounded-md mt-2 p-2  h-36 items-center justify-center flex"
                         >
-                            {thumbnail ? (
+                            {isUploading ? (
+                                <div>
+                                    <div className="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+                                    <p className="mt-6 items-center justify-center flex">{uploadProgress}%</p>
+                                </div>
+                            ) : thumbnail ? (
                                 <img
                                     onClick={() => {
                                         thumbnailRef.current.click();
@@ -181,7 +179,12 @@ export default function Upload() {
                                 : "border-2 border-gray-600  w-96 border-dashed rounded-md mt-8   h-64 items-center justify-center flex"
                         }
                     >
-                        {video ? (
+                        {isUploading ? (
+                            <div>
+                                <div className="border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+                                <p className="mt-6 items-center justify-center flex">{uploadProgress}%</p>
+                            </div>
+                        ) : video ? (
                             <video
                                 controls
                                 src={`${process.env.NEXT_PUBLIC_LIGHT_HOUSE_URL}${video}`}

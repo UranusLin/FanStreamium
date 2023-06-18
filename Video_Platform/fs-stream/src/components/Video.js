@@ -25,7 +25,7 @@ export default function Video({ horizontal, video }) {
                     {video.title}
                 </h4>
                 <p className="text-sm flex items-center text-[#878787] mt-1">
-                    {video.category + ' • ' + moment(video.createdAt * 1000).fromNow()}
+                    {video.state + ' • ' + moment(video.createdAt * 1000).fromNow()}
                 </p>
                 <p className="text-sm flex items-center text-[#878787] mt-1">
                     {video?.author?.slice(0, 9)}...{' '}
