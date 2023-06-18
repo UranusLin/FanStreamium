@@ -2,6 +2,10 @@
 
 A platform for various Web3 service integrate CMS.
 
+Quick Intro:  
+The **FanStreamium's** backend management system.
+The current idea is that integrate CMS management system with using Tableland Web3 DB to store all data. Include user detail activities, transaction and trivial.And each data table will require separate permission settings by **Lit Protocol**. It will be used to control and manage these permissions according to specific CMS account.Our project main idea is finding the total solution for managing & operating the Web3 software platform.
+
 ## Integration
 
 - Push Protocol
