@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@tableland/sdk": "github:tablelandnetwork/js-tableland"
-  }
-}
