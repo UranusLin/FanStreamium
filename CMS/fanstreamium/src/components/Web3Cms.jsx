@@ -1,7 +1,9 @@
-// import { Database } from "@tableland/sdk";
-// import { providers } from "ethers";
 import ShareModal from "lit-share-modal-v3";
 import { useState } from "react";
+
+import fakeUserActivities from "./fakeData";
+// import { Database } from "@tableland/sdk";
+// import { providers } from "ethers";
 
 const Web3Cms = () => {
   // Toggle the lit access dialog.
@@ -24,21 +26,47 @@ const Web3Cms = () => {
 
   return (
     <div>
-      <h1>CMS</h1>
-      <button onClick={() => setShowShareModal(true)}>Show Share Modal</button>
+      <div className="left-bar">
+        <h1>CMS</h1>
+        <button onClick={() => setShowShareModal(true)}>
+          Show Share Modal
+        </button>
 
-      {showShareModal && (
-        <div className={"lit-share-modal"}>
-          <ShareModal
-            onClose={() => {
-              setShowShareModal(false);
-            }}
-            onUnifiedAccessControlConditionsSelected={
-              onUnifiedAccessControlConditionsSelected
-            }
-          />
+        {showShareModal && (
+          <div className={"lit-share-modal"}>
+            <ShareModal
+              onClose={() => {
+                setShowShareModal(false);
+              }}
+              onUnifiedAccessControlConditionsSelected={
+                onUnifiedAccessControlConditionsSelected
+              }
+            />
+          </div>
+        )}
+        <div className="table-list">
+          <span>User List</span>
+          <span>User Activities</span>
+          <span>User Donate</span>
+          <span>User Level</span>
+          <span>User State</span>
         </div>
-      )}
+      </div>
+      <hr ></hr>
+      <div className="right-content">
+        <h3>User Activities</h3>
+        <ul className="user-list">
+          {fakeUserActivities.map((user) => (
+            <li key={user.userId} className="user-list-item">
+              <div className="user-details">
+                <p>{user.userName}</p>
+                <p>{user.timestamp}</p>
+                <p>{user.activity}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

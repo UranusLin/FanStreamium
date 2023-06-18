@@ -53,3 +53,31 @@
   border: 1px solid #333;
   border-radius: 0.25em;
 }
+
+.container > div {
+  display: flex;
+}
+
+.left-bar {
+  padding-right: 50px;
+}
+
+.left-bar > .table-list {
+  height: 35vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-content {
+  margin: 15px 55px;
+}
+
+.user-list {
+  width: 70vw;
+}
+
+.user-details {
+  display: flex;
+  justify-content: space-between;
+}

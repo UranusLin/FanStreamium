@@ -7,8 +7,8 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <div className="container">
-          <Web3Cms>Web3 CMS</Web3Cms>
-          {/* <ClientPlatform>Fanstreamium</ClientPlatform> */}
+          <Web3Cms></Web3Cms>
+          {/* <ClientPlatform></ClientPlatform> */}
         </div>
       </header>
     </div>
