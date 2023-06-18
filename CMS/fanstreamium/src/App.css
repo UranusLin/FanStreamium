@@ -59,18 +59,28 @@
 }
 
 .left-bar {
+  width: 15vw;
   padding-right: 50px;
 }
 
 .left-bar > .table-list {
   height: 35vh;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+.table-list > span {
+  cursor: pointer;
+}
+
 .right-content {
   margin: 15px 55px;
+}
+
+.right-content .deny {
+  color: red;
 }
 
 .user-list {

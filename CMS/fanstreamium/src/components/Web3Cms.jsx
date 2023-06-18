@@ -13,6 +13,63 @@ const Web3Cms = () => {
     // do things with share modal output
   };
 
+  // Toggle the Donation table.
+  const [showDonation, setShowDonation] = useState(false);
+
+  const [showLevel, setShowLevel] = useState(false);
+
+  const openUserLevel = () => {
+    setShowLevel(true);
+    setShowShareModal(false);
+    setShowDonation(false);
+  };
+
+  let content;
+  if (showLevel) {
+    content = (
+      <>
+        <h3>User Donation</h3>
+        <span className="deny">
+          Check your account privilege to aceess those detail.
+        </span>
+      </>
+    );
+  } else if (showDonation) {
+    content = (
+      <>
+        <h3>User Donation</h3>
+        <ul className="user-list">
+          {fakeUserActivities.map((user) => (
+            <li key={user.userId} className="user-list-item">
+              <div className="user-details">
+                <p>{user.userName}</p>
+                <p>{user.timestamp}</p>
+                <p>{user.donate}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <h3>User Activities</h3>
+        <ul className="user-list">
+          {fakeUserActivities.map((user) => (
+            <li key={user.userId} className="user-list-item">
+              <div className="user-details">
+                <p>{user.userName}</p>
+                <p>{user.timestamp}</p>
+                <p>{user.activity}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  }
+
   // // Connect to a chain provider, such as a browser wallet
   // const provider = new providers.Web3Provider(window.ethereum);
   // // Request permission to connect to a users accounts
@@ -46,27 +103,14 @@ const Web3Cms = () => {
         )}
         <div className="table-list">
           <span>User List</span>
-          <span>User Activities</span>
-          <span>User Donate</span>
-          <span>User Level</span>
+          <span onClick={() => setShowDonation(false)}>User Activities</span>
+          <span onClick={() => setShowDonation(true)}>User Donation</span>
+          <span onClick={openUserLevel}>User Level</span>
           <span>User State</span>
         </div>
       </div>
-      <hr ></hr>
-      <div className="right-content">
-        <h3>User Activities</h3>
-        <ul className="user-list">
-          {fakeUserActivities.map((user) => (
-            <li key={user.userId} className="user-list-item">
-              <div className="user-details">
-                <p>{user.userName}</p>
-                <p>{user.timestamp}</p>
-                <p>{user.activity}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <hr></hr>
+      <div className="right-content">{content}</div>
     </div>
   );
 };
