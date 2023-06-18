@@ -17,7 +17,7 @@ export default function Video({ horizontal, video }) {
                         ? 'object-cover rounded-lg w-60  '
                         : 'object-cover rounded-lg w-full h-40'
                 }
-                src={`https://ipfs.io/ipfs/${video.thumbnailHash}`}
+                src={`${process.env.NEXT_PUBLIC_LIGHT_HOUSE_URL}${video.thumbnailHash}`}
                 alt=""
             />
             <div className={horizontal && 'ml-3  w-80'}>

@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Player, Video as RelatedVideos } from "@/pages/components";
 import lighthouse from "@lighthouse-web3/sdk";
 import Link from "next/link";
 import moment from "moment";
 import { BiCheck } from "react-icons/bi";
 import Avvvatars from "avvvatars-react";
-import { getContract } from "../../utils";
-
+import getContract from "@/utils/getContract";
+import VideoPlayer from "@/components/Player";
 export default function Video() {
     const router = useRouter();
     const { id } = router.query;
@@ -34,14 +33,11 @@ export default function Video() {
     }, [id]);
 
     return (
-        <Background className="flex  h-screen w-full flex-row">
-            <Sidebar />
             <div className="flex flex-1 flex-col">
-                <Header />
                 {video && (
                     <div className="m-10 flex flex-col justify-between	  lg:flex-row">
                         <div className="w-6/6 lg:w-4/6">
-                            <Player id={video.hash} />
+                            <VideoPlayer id={video.hash} />
                             <div className="border-border-light dark:border-border-dark flex flex-row justify-between border-b-2 py-4">
                                 <div>
                                     <h3 className="text-transform: text-2xl capitalize dark:text-white">
@@ -75,14 +71,13 @@ export default function Video() {
                                 Related Videos
                             </h4>
                             {relatedVideos.map((video) => (
-                                <Link href={`/video/${video.id}`} key={video.id}>
-                                    <RelatedVideos video={video} horizontal={true} />
+                                <Link href={`/video/?id=${video.id}`} key={video.id}>
+                                    <VideoPlayer video={video} horizontal={true} />
                                 </Link>
                             ))}
                         </div>
                     </div>
                 )}
             </div>
-        </Background>
     );
 }

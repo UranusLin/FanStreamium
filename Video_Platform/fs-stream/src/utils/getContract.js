@@ -1,4 +1,4 @@
-import ContractAbi from '../artifacts/contracts/YouTube.sol/YouTube.json';
+import ContractAbi from '../pages/artifacts/contracts/YouTube.sol/YouTube.json';
 import {ethers} from 'ethers';
 
 export default async function getContract() {

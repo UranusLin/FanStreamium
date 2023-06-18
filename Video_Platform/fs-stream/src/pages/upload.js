@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BiCloud, BiPlus } from "react-icons/bi";
-import getContract from "./utils/getContract";
+import getContract from "@/utils/getContract";
 import lighthouse from '@lighthouse-web3/sdk';
 
 export default function Upload() {
@@ -152,7 +152,7 @@ export default function Upload() {
                                     onClick={() => {
                                         thumbnailRef.current.click();
                                     }}
-                                    src={`https://gateway.lighthouse.storage/ipfs/${thumbnail}`}
+                                    src={`${process.env.NEXT_PUBLIC_LIGHT_HOUSE_URL}${thumbnail}`}
                                     alt="thumbnail"
                                     className="h-full rounded-md"
                                 />
@@ -184,7 +184,7 @@ export default function Upload() {
                         {video ? (
                             <video
                                 controls
-                                src={`https://gateway.lighthouse.storage/ipfs/${video}`}
+                                src={`${process.env.NEXT_PUBLIC_LIGHT_HOUSE_URL}${video}`}
                                 className="h-full rounded-md"
                             />
                         ) : (

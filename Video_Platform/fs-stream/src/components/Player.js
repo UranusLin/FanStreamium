@@ -4,7 +4,7 @@ import { useAsset, Player } from '@livepeer/react';
 const VideoPlayer = ({ id }) => {
     return (
         <Player
-            src={'ipfs://' + id}
+            src={`https://gateway.lighthouse.storage/ipfs/${id}`}
             showPipButton
             showTitle={false}
             aspectRatio="16to9"
