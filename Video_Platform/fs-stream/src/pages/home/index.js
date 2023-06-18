@@ -38,7 +38,7 @@ export default function Main() {
                                     window.location.href = `/video?id=${video.id}`;
                                 }}
                             >
-                                <Video video={video.id} key={video.id} />
+                                <Video video={video} key={video.id} />
                             </div>
                         ))
                     }

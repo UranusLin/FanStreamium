@@ -36,10 +36,9 @@ function Landing() {
                                 className="text-5xl text-white md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4"
                                 data-aos="zoom-y-out"
                             >
-                                It is YouTube, but{' '}
-                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                  Decentralized
-                </span>
+                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-teal-300">
+                                  FanStreamium
+                                </span>
                             </h1>
                             <div className="max-w-3xl mx-auto">
                                 <p
@@ -51,7 +50,7 @@ function Landing() {
                                     share and watch videos, without worrying about their privacy.
                                 </p>
                                 <button
-                                    className="items-center  bg-white rounded-full font-medium  p-4 shadow-lg"
+                                    className="items-center  bg-orange-300 rounded-full font-medium  p-4 shadow-lg"
                                     onClick={() => {
                                         // Calling the connectWallet function when user clicks on the button
                                         connectWallet();
