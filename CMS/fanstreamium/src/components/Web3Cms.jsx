@@ -28,7 +28,7 @@ const Web3Cms = () => {
   if (showLevel) {
     content = (
       <>
-        <h3>User Donation</h3>
+        <h3>User Level</h3>
         <span className="deny">
           Check your account privilege to aceess those detail.
         </span>
