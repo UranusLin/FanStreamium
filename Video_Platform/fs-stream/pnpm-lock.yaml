@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@lighthouse-web3/sdk':
     specifier: ^0.2.5
@@ -573,7 +577,7 @@ packages:
       cli-spinner: 0.2.10
       commander: 10.0.1
       conf: 10.2.0
-      crypto-js: 4.1.1
+      crypto-js: 4.2.0
       ethers: 5.7.2
       form-data: 4.0.0
       fs-extra: 11.1.1
@@ -2712,8 +2716,8 @@ packages:
       which: 2.0.2
     dev: false
 
-  /crypto-js@4.1.1:
-    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
     dev: false
 
   /css-what@5.1.0:
